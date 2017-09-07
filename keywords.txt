@@ -1,0 +1,7 @@
+SimpleLed	KEYWORD1
+on			KEYWORD2
+off			KEYWORD2
+value		KEYWORD2
+blink		KEYWORD2
+flash		KEYWORD2
+touch		KEYWORD2
