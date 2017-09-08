@@ -1,6 +1,6 @@
 #include <SimpleLed.h>
 
-SimpleLed led(5);
+SimpleLed led(9);
 int mode = 0;
 unsigned long last_time = 0;
 unsigned long interval = 0;
@@ -9,7 +9,7 @@ void setup() {
   Serial.begin(115200);
   led.off();
   ::last_time = millis();
-  ::mode = 4;
+  ::mode = 0;
 }
 
 void loop() {
@@ -59,11 +59,12 @@ void loop() {
       Serial.print("FADE OUT ... ");
       led.set_value(255);
       led.on();
-      for (int i = 254; i == 0; i--) {
+      for (int i = 254; i > 0; i--) {
         led.set_value(i);
         delay(10);
       }
       led.off();
+      led.set_value(255);
       Serial.println("OK");
       ::mode = 0;
       ::interval = 0;
