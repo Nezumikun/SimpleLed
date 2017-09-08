@@ -18,16 +18,38 @@ void SimpleLed::init(int pin, int pwm_value) {
   this->off();
 }
 
+void SimpleLed::update() {
+  if (this->state == LOW) {
+    digitalWrite(this->pin_number, LOW);
+	return;
+  }
+  if (this->pwm_available && (this->state == HIGH)) {
+    analogWrite(this->pin_number, this->pwm_value);
+  }
+  else {
+    digitalWrite(this->pin_number, HIGH);
+  }
+}
+
 void SimpleLed::on() {
   this->mode = SIMPLELED_ON;
   this->state = HIGH;
-  digitalWrite(this->pin_number, HIGH);
+  this->update();
+}
+
+int SimpleLed::get_value() {
+  return this->pwm_value;
+}
+
+void SimpleLed::set_value(int pwm_value) {
+  this->pwm_value = pwm_value;
+  this->update();
 }
 
 void SimpleLed::off() {
   this->mode = SIMPLELED_OFF;
   this->state = LOW;
-  digitalWrite(this->pin_number, LOW);
+  this->update();
 }
 
 void SimpleLed::blink(unsigned int interval) {
@@ -35,7 +57,7 @@ void SimpleLed::blink(unsigned int interval) {
   this->interval = interval;
   this->state = (this->state == HIGH) ? LOW : HIGH;
   this->time = millis();
-  digitalWrite(this->pin_number, this->state);
+  this->update();
 }
 
 void SimpleLed::flash(unsigned int interval) {
@@ -43,7 +65,7 @@ void SimpleLed::flash(unsigned int interval) {
   this->interval = interval;
   this->state = HIGH;
   this->time = millis();
-  digitalWrite(this->pin_number, this->state);
+  this->update();
 }
 
 void SimpleLed::touch() {
@@ -55,16 +77,11 @@ void SimpleLed::touch() {
     if (this->mode == SIMPLELED_FLASH) {
       this->state = LOW;
       this->mode = SIMPLELED_OFF;
-      digitalWrite(this->pin_number, LOW);
+      this->update();
       return;
     }
     this->state = (this->state == HIGH) ? LOW : HIGH;
     this->time = now;
-    if (this->pwm_available && (this->state == HIGH)) {
-      analogWrite(this->pin_number, this->pwm_value);
-    }
-    else {
-      digitalWrite(this->pin_number, this->state);
-    }
+    this->update();
   }
 }

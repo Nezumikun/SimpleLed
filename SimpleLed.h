@@ -14,13 +14,14 @@ class SimpleLed {
     int               pwm_value = 0xFF;
     bool              pwm_available = false;
     void init(int pin, int pwm_value);
+	void update();
   public:
     SimpleLed (int pin);
     SimpleLed (int pin, int pwm_value);
     void on();
     void off();
-    int value();
-    void value(int pwm_value);
+    int get_value();
+    void set_value(int pwm_value);
     void blink(unsigned int interval);
     void flash(unsigned int interval);
     void touch();
