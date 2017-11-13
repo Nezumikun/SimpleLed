@@ -20,6 +20,7 @@ class SimpleLed {
     SimpleLed (int pin, int pwm_value);
     void on();
     void off();
+	bool is_on();
     int get_value();
     void set_value(int pwm_value);
     void blink(unsigned int interval);

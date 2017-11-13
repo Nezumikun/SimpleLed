@@ -52,6 +52,10 @@ void SimpleLed::off() {
   this->update();
 }
 
+bool SimpleLed::is_on() {
+  return (this->state == HIGH);
+}
+
 void SimpleLed::blink(unsigned int interval) {
   this->mode = SIMPLELED_BLINK;
   this->interval = interval;
